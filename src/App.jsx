@@ -708,14 +708,15 @@ function AdminPage({ teams, soloPlayers, settings, refetch }) {
   const [tab, setTab] = useState("teams");
   const [settingsForm, setSettingsForm] = useState(settings);
 
-  const approveTeam = (id) => db.updateTeam(id, { status: "approved" });
-  const rejectTeam = (id) => db.updateTeam(id, { status: "rejected" });
-  const deleteTeam = (id) => { if (confirm("¿Eliminar equipo?")) db.deleteTeam(id); };
+  const approveTeam = async (id) => { await db.updateTeam(id, { status: "approved" }); refetch(); };
+  const rejectTeam = async (id) => { await db.updateTeam(id, { status: "rejected" }); refetch(); };
+  const deleteTeam = async (id) => { if (confirm("¿Eliminar equipo?")) { await db.deleteTeam(id); refetch(); } };
 
-  const grantBadge = (team, badgeId) => {
+  const grantBadge = async (team, badgeId) => {
     const badges = team.badges || [];
     const newBadges = badges.includes(badgeId) ? badges.filter(b => b !== badgeId) : [...badges, badgeId];
-    db.updateTeam(team.id, { badges: newBadges });
+    await db.updateTeam(team.id, { badges: newBadges });
+    refetch();
   };
 
   const saveSettings = async () => {
