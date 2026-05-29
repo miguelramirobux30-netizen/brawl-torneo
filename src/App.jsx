@@ -208,6 +208,7 @@ function LoadingScreen() {
 
 function HomePage({ teams, soloPlayers, brackets, settings, setPage }) {
   const approvedTeams = teams.filter(t => t.status === "approved");
+  const pendingTeams = teams.filter(t => t.status === "pending");
   const playedMatches = brackets.rounds?.flatMap(r => r.matches?.filter(m => m.winner)) || [];
 
   return (
@@ -230,7 +231,11 @@ function HomePage({ teams, soloPlayers, brackets, settings, setPage }) {
           <div className="flex flex-wrap gap-4 justify-center mb-6">
             <div className="bg-gray-900/80 border border-yellow-400/30 rounded-xl px-6 py-3 text-center">
               <div className="text-3xl font-black text-yellow-400">{approvedTeams.length}</div>
-              <div className="text-gray-400 text-xs tracking-wide">EQUIPOS INSCRITOS</div>
+              <div className="text-gray-400 text-xs tracking-wide">EQUIPOS APROBADOS</div>
+            </div>
+            <div className="bg-gray-900/80 border border-orange-400/30 rounded-xl px-6 py-3 text-center">
+              <div className="text-3xl font-black text-orange-400">{pendingTeams.length}</div>
+              <div className="text-gray-400 text-xs tracking-wide">PENDIENTES</div>
             </div>
             <div className="bg-gray-900/80 border border-purple-400/30 rounded-xl px-6 py-3 text-center">
               <div className="text-3xl font-black text-purple-400">{soloPlayers.length}</div>
